@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-<!--    <data>-->
-<!--        <variable-->
-<!--            name="vm"-->
-<!--            type="com.blacksun.recycletut.CustomViewModel" />-->
-<!--    </data>-->
+    <data>
+
+        <variable
+            name="vm"
+            type="com.blacksun.recycletut.CustomViewModel" />
+    </data>
 
     <com.blacksun.recycletut.ScrollViewExt
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:testModels="@{vm.testModels}"
         tools:layout_editor_absoluteX="207dp"
-        tools:layout_editor_absoluteY="219dp"/>
-    <!--        app:testModels="@{vm.testModels}"-->
+        tools:layout_editor_absoluteY="219dp" />
 </layout>

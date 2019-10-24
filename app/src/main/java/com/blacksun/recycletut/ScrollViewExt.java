@@ -9,11 +9,13 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.databinding.Bindable;
+
 import java.util.ArrayList;
 import java.util.Stack;
 
 public class ScrollViewExt extends ScrollView {
-    private ArrayList<TestItem> mTestList;
+    private ArrayList<TestItem> testModels;
     private LinearLayout mLinearLayout;
     private int topIndex, bottomIndex = 0;
     private int size;
@@ -40,10 +42,13 @@ public class ScrollViewExt extends ScrollView {
         init(context);
     }
 
-    public void setViewList(ArrayList<TestItem> mTestList) {
+    public ArrayList<TestItem> getTestModels() {
+        return testModels;
+    }
 
-        this.mTestList = mTestList;
-        this.size = mTestList.size();
+    public void setTestModels(ArrayList<TestItem> testModels) {
+        this.testModels = testModels;
+        this.size = testModels.size();
 
         LinearLayout linearLayout =
                 (LinearLayout) LayoutInflater.from(context).inflate(R.layout.test_view, null);
@@ -52,7 +57,7 @@ public class ScrollViewExt extends ScrollView {
         for (int i = 0; i < 12; i++) {
 
             TextView numOrder = linearLayout.findViewById(R.id.num);
-            String text = "" + mTestList.get(bottomIndex).numOrder;
+            String text = "" + testModels.get(bottomIndex).numOrder;
             numOrder.setText(text);
 
             mLinearLayout.addView(linearLayout, mLinearLayout.getChildCount());
@@ -61,6 +66,28 @@ public class ScrollViewExt extends ScrollView {
                     (LinearLayout) LayoutInflater.from(context).inflate(R.layout.test_view, null);
         }
     }
+
+//    public void setViewList(ArrayList<TestItem> testModels) {
+//
+//        this.testModels = testModels;
+//        this.size = testModels.size();
+//
+//        LinearLayout linearLayout =
+//                (LinearLayout) LayoutInflater.from(context).inflate(R.layout.test_view, null);
+////        double viewHeight = linearLayout.findViewById(R.id.wrap_layout).getHeight();
+////        long initialViewNum = Math.round((this.getHeight() / viewHeight)*1.2f);
+//        for (int i = 0; i < 12; i++) {
+//
+//            TextView numOrder = linearLayout.findViewById(R.id.num);
+//            String text = "" + testModels.get(bottomIndex).numOrder;
+//            numOrder.setText(text);
+//
+//            mLinearLayout.addView(linearLayout, mLinearLayout.getChildCount());
+//            bottomIndex++;
+//            linearLayout =
+//                    (LinearLayout) LayoutInflater.from(context).inflate(R.layout.test_view, null);
+//        }
+//    }
 
     public ScrollViewExt(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -104,7 +131,7 @@ public class ScrollViewExt extends ScrollView {
                             linearLayout =
                                     (LinearLayout) LayoutInflater.from(context).inflate(R.layout.test_view, null);
                             TextView numOrder = linearLayout.findViewById(R.id.num);
-                            String text = "" + mTestList.get(bottomIndex).numOrder;
+                            String text = "" + testModels.get(bottomIndex).numOrder;
                             numOrder.setText(text);
                         } else {
                             linearLayout = (LinearLayout) poolDown.pop();
@@ -138,7 +165,7 @@ public class ScrollViewExt extends ScrollView {
                         linearLayout =
                                 (LinearLayout) LayoutInflater.from(context).inflate(R.layout.test_view, null);
                         TextView numOrder = linearLayout.findViewById(R.id.num);
-                        String text = "" + mTestList.get(topIndex).numOrder;
+                        String text = "" + testModels.get(topIndex).numOrder;
                         numOrder.setText(text);
                     } else {
                         linearLayout = (LinearLayout) poolUp.pop();
