@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             mTestList.add(new TestItem(i));
         }
 
-        mScrollView.setViewList(this, mTestList);
+        mScrollView.setViewList(mTestList);
     }
 
 

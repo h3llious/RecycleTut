@@ -40,7 +40,7 @@ public class ScrollViewExt extends ScrollView {
         init(context);
     }
 
-    public void setViewList(Context context, ArrayList<TestItem> mTestList) {
+    public void setViewList(ArrayList<TestItem> mTestList) {
 
         this.mTestList = mTestList;
         this.size = mTestList.size();
@@ -100,15 +100,17 @@ public class ScrollViewExt extends ScrollView {
                 for (int i = 0; i < 1; i++) {
                     if (bottomIndex < size) {
                         LinearLayout linearLayout;
-//                        if (poolDown.empty()) {
+                        if (poolDown.empty()) {
                             linearLayout =
                                     (LinearLayout) LayoutInflater.from(context).inflate(R.layout.test_view, null);
                             TextView numOrder = linearLayout.findViewById(R.id.num);
                             String text = "" + mTestList.get(bottomIndex).numOrder;
                             numOrder.setText(text);
-//                        } else {
-//                            linearLayout = (LinearLayout) poolDown.pop();
-//                        }
+                        } else {
+                            linearLayout = (LinearLayout) poolDown.pop();
+
+                            Log.d("test", "poolDown");
+                        }
                         mLinearLayout.addView(linearLayout, mLinearLayout.getChildCount());
                         bottomIndex++;
                     }
@@ -116,11 +118,11 @@ public class ScrollViewExt extends ScrollView {
 
                 if (this.getScrollY() > 4 * viewHeight) {
                     for (int iDel = 1; iDel > 0; iDel--) {
-//                mLinearLayout.removeViewAt(mLinearLayout.getChildCount() - 15 - iDel);
-//                        if (poolUp.size() >= 5) {
-//                            poolUp.
-//                        }
-//                        poolUp.push(mLinearLayout.getChildAt(0));
+//                        mLinearLayout.removeViewAt(mLinearLayout.getChildCount() - 15 - iDel);
+                        if (poolUp.size() >= 5) {
+                            poolUp.remove(0);
+                        }
+                        poolUp.push(mLinearLayout.getChildAt(0));
                         mLinearLayout.removeViewAt(0);
                         this.setScrollY(this.getScrollY() - viewHeight);
                         topIndex++;
@@ -131,11 +133,17 @@ public class ScrollViewExt extends ScrollView {
         } else { //scroll up
             if (diffTop < 2 * viewHeight) {
                 if (topIndex >= 0) {
-                    LinearLayout linearLayout =
-                            (LinearLayout) LayoutInflater.from(context).inflate(R.layout.test_view, null);
-                    TextView numOrder = linearLayout.findViewById(R.id.num);
-                    String text = "" + mTestList.get(topIndex).numOrder;
-                    numOrder.setText(text);
+                    LinearLayout linearLayout;
+                    if (poolUp.empty()) {
+                        linearLayout =
+                                (LinearLayout) LayoutInflater.from(context).inflate(R.layout.test_view, null);
+                        TextView numOrder = linearLayout.findViewById(R.id.num);
+                        String text = "" + mTestList.get(topIndex).numOrder;
+                        numOrder.setText(text);
+                    } else {
+                        linearLayout = (LinearLayout) poolUp.pop();
+                        Log.d("test", "poolUp");
+                    }
 
                     mLinearLayout.addView(linearLayout, 0);
                     topIndex--;
@@ -144,6 +152,10 @@ public class ScrollViewExt extends ScrollView {
                 if (diffBottom > 4 * viewHeight) {
                     for (int iDel = 1; iDel > 0; iDel--) {
 //                mLinearLayout.removeViewAt(mLinearLayout.getChildCount() - 15 - iDel);
+                        if (poolDown.size() >= 5) {
+                            poolDown.remove(0);
+                        }
+                        poolDown.push(mLinearLayout.getChildAt(mLinearLayout.getChildCount() - 1));
                         mLinearLayout.removeViewAt(mLinearLayout.getChildCount() - 1);
                         this.setScrollY(this.getScrollY() + viewHeight);
                         bottomIndex--;
